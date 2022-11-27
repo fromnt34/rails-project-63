@@ -9,7 +9,10 @@ module HexletCode
   class Tag
     def self.build(tag, **attributes)
       if block_given?
-        (HTML::Element.new(tag, **attributes) { "Test content" }).to_s
+        # todo
+        # rubocop:disable Style/ExplicitBlockArgument
+        (HTML::Element.new(tag, **attributes) { yield }).to_s
+        # rubocop:enable Style/ExplicitBlockArgument
       else
         HTML::Element.new(tag, **attributes).to_s
       end

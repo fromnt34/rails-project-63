@@ -11,7 +11,7 @@ module HTML
     end
 
     def to_s
-      @tag.attributes = attributes_to_html(@attributes) unless @attributes.nil?
+      @tag.attributes = attributes_to_html @attributes unless @attributes.nil?
 
       if @content.nil?
         @tag.to_s
@@ -23,7 +23,7 @@ module HTML
     private
 
     def attributes_to_instances(attributes)
-      attributes.each_with_object([]) do |attribute, accumulator|
+      attributes.each_with_object [] do |attribute, accumulator|
         name = attribute[0]
         value = attribute[1]
 
@@ -32,7 +32,7 @@ module HTML
     end
 
     def attributes_to_html(attributes)
-      attributes.map(&:to_s).join(" ")
+      attributes.map(&:to_s).join " "
     end
   end
 end

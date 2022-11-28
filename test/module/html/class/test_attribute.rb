@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class HTMLAttribute < Minitest::Test
+class TestHTMLAttribute < Minitest::Test
   def test_is_class
     assert_instance_of Class, HTML::Attribute
   end

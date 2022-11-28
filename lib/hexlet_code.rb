@@ -4,8 +4,6 @@ require_relative "hexlet_code/version"
 require_relative "hexlet_code/module/html/html"
 
 module HexletCode
-  include HTML
-
   class Tag
     def self.build(tag, **attributes)
       if block_given?

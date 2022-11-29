@@ -8,7 +8,7 @@ class TestTag < Minitest::Test
   end
 
   def test_attributes
-    actual_value = HexletCode::Tag.build("img", src: "path/to/image", alt: "Alt text")
+    actual_value = HexletCode::Tag.build "img", src: "path/to/image", alt: "Alt text"
     expected_value = '<img src="path/to/image" alt="Alt text">'
 
     assert { actual_value == expected_value }

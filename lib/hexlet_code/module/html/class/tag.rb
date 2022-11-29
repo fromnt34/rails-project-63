@@ -8,7 +8,7 @@ module HTML
     @@template = "<%<tag>s%<attributes>s>"
     @@close_tag_template = "</%s>"
 
-    @@close_tags = %i[label div]
+    @@close_tags = %i[label div form]
     # rubocop:enable Style/ClassVars
 
     def initialize(name)

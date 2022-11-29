@@ -16,4 +16,8 @@ module HexletCode
       end
     end
   end
+
+  def self.form_for(user, **attributes)
+    HTML::SpecialElements::Form.new user, **attributes
+  end
 end

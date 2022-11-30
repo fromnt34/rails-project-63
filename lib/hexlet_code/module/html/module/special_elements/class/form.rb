@@ -36,27 +36,25 @@ module HTML
         }
 
         tag = field_as_and_tags.fetch options[:as], "input"
+
         options[:type] = field_types_and_input_types.fetch type, "text" if tag == "input"
 
         options[:name] = type
 
-        block_value = nil
+        options.delete :as
+
         if tag == "textarea"
           block_value = @user.public_send type
 
           options[:cols] = 20
           options[:rows] = 40
+
+          @content += (::HTML::Element.new(tag, **options) { block_value }).to_s
         else
           options[:value] = @user.public_send type
+
+          @content += ::HTML::Element.new(tag, **options).to_s
         end
-
-        options.delete :as
-
-        @content += if block_value.nil?
-                      ::HTML::Element.new(tag, **options).to_s
-                    else
-                      (::HTML::Element.new(tag, **options) { block_value }).to_s
-                    end
       end
     end
   end

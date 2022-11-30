@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestTag < Minitest::Test
+  def test_class?
+    assert_instance_of Class, HexletCode::Tag
+  end
+
   def test_tag
     assert { HexletCode::Tag.build("img") == "<img>" }
   end

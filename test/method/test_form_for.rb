@@ -3,6 +3,10 @@
 require "test_helper"
 
 class TestFormFor < TestHelper
+  def test_method?
+    assert { HexletCode.singleton_class.method_defined?(:form_for, false) }
+  end
+
   def test_form
     actual_value = HexletCode.form_for @user
     expected_value = '<form action="#" method="post"></form>'

@@ -3,7 +3,7 @@
 require "test_helper"
 
 class TestForm < TestHelper
-  def test_is_class
+  def test_class?
     assert_instance_of Class, HTML::SpecialElements::Form
   end
 

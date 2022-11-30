@@ -3,7 +3,7 @@
 require "test_helper"
 
 class TestSpecialElements < Minitest::Test
-  def test_is_module
+  def test_module?
     assert_instance_of Module, HTML::SpecialElements
   end
 end

@@ -2,13 +2,13 @@
 
 require "test_helper"
 
-class TestForm < Minitest::Test
+class TestForm < TestHelper
   def test_is_class
     assert_instance_of Class, HTML::SpecialElements::Form
   end
 
   def setup
-    @user = nil
+    @user = User.new name: "Jarad", job: "Grade A", gender: "m"
   end
 
   def test_form
@@ -23,5 +23,26 @@ class TestForm < Minitest::Test
     expected_value = '<form action="/test" method="post"></form>'
 
     assert { actual_value == expected_value }
+  end
+
+  def test_form_inputs
+    actual_value = HTML::SpecialElements::Form.new @user do |f|
+      f.input :name, class: "test-class", id: "test-id"
+      f.input :job, id: "test-id"
+      f.input :job, as: :text
+    end.to_s
+
+    # TODO: make possible to test with formated html
+    expected_value = load_fixture("module/html/module/special_elements/class/test_form/form_inputs.html")
+
+    assert { actual_value == expected_value }
+  end
+
+  def test_form_input_error_on_undefined_method_in_user
+    assert_raises NoMethodError do
+      HTML::SpecialElements::Form.new @user do |f|
+        f.input :age
+      end
+    end
   end
 end

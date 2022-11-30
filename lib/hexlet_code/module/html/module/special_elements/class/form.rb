@@ -41,9 +41,7 @@ module HTML
         options[:name] = type
 
         block_value = nil
-        if tag == "input" && type == :job
-          options[:value] = ""
-        elsif tag == "textarea"
+        if tag == "textarea"
           block_value = @user.public_send type
 
           options[:cols] = 20

@@ -23,40 +23,53 @@ module HTML
         end
       end
 
-      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-      def input(type, **options)
+      def field(type, **options)
+        tag = field_tag options[:as]
+        options.delete :as
+
+        @content += field_as tag, type, options
+      end
+
+      alias input field
+
+      private
+
+      def field_tag(field_as)
         field_as_and_tags = {
           text: "textarea"
         }
 
-        # will use if field type not string/input type not text
-        field_types_and_input_types = {
-          # example:
-          # age: :number
-        }
+        field_as_and_tags.fetch field_as, "input"
+      end
 
-        tag = field_as_and_tags.fetch options[:as], "input"
+      # rubocop:disable Metrics/MethodLength
+      def field_as(as_tag, field_type, field_options)
+        if as_tag == "input"
+          # will use if field type not string/input type not text
+          field_types_and_input_types = {
+            # example:
+            # age: :number
+          }
 
-        options[:type] = field_types_and_input_types.fetch type, "text" if tag == "input"
+          field_options[:type] = field_types_and_input_types.fetch field_type, "text"
+        end
 
-        options[:name] = type
+        field_options[:name] = field_type
 
-        options.delete :as
+        if as_tag == "textarea"
+          block_value = @user.public_send field_type
 
-        if tag == "textarea"
-          block_value = @user.public_send type
+          field_options[:cols] = 20
+          field_options[:rows] = 40
 
-          options[:cols] = 20
-          options[:rows] = 40
-
-          @content += (::HTML::Element.new(tag, **options) { block_value }).to_s
+          (::HTML::Element.new(as_tag, **field_options) { block_value }).to_s
         else
-          options[:value] = @user.public_send type
+          field_options[:value] = @user.public_send field_type
 
-          @content += ::HTML::Element.new(tag, **options).to_s
+          ::HTML::Element.new(as_tag, **field_options).to_s
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

@@ -32,10 +32,10 @@ class TestFormFor < TestHelper
       f.input :job, as: :text
     end
 
-    # TODO: make possible to test with formated html
     expected_value = load_fixture("method/test_form_for/form_inputs.html")
 
-    assert { actual_value == expected_value }
+    # TODO: make possible to test with formated html
+    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
   end
 
   def test_form_input_error_on_undefined_method_in_user
@@ -49,9 +49,9 @@ class TestFormFor < TestHelper
   def test_form_button
     actual_value = HTML::SpecialElements::Form.new(@user, &:submit).to_s
 
-    expected_value = '<form action="#" method="post"><input type="submit" value="Save"></form>'
+    expected_value = load_fixture("method/test_form_for/form_button.html")
 
-    assert { actual_value == expected_value }
+    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
   end
 
   def test_form_button_with_custom_value
@@ -59,8 +59,8 @@ class TestFormFor < TestHelper
       f.submit "test"
     end.to_s
 
-    expected_value = '<form action="#" method="post"><input type="submit" value="test"></form>'
+    expected_value = load_fixture("method/test_form_for/form_button_with_custom_value.html")
 
-    assert { actual_value == expected_value }
+    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
   end
 end

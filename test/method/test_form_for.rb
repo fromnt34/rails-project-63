@@ -31,6 +31,7 @@ class TestFormFor < TestHelper
       f.input :job, id: "test-id"
       f.input :job, as: :text
     end
+
     # TODO: make possible to test with formated html
     expected_value = load_fixture("method/test_form_for/form_inputs.html")
 
@@ -43,5 +44,23 @@ class TestFormFor < TestHelper
         f.input :age
       end
     end
+  end
+
+  def test_form_button
+    actual_value = HTML::SpecialElements::Form.new(@user, &:submit).to_s
+
+    expected_value = '<form action="#" method="post"><input type="submit" value="Save"></form>'
+
+    assert { actual_value == expected_value }
+  end
+
+  def test_form_button_with_custom_value
+    actual_value = HTML::SpecialElements::Form.new @user do |f|
+      f.submit "test"
+    end.to_s
+
+    expected_value = '<form action="#" method="post"><input type="submit" value="test"></form>'
+
+    assert { actual_value == expected_value }
   end
 end

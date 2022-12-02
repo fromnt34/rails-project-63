@@ -7,7 +7,7 @@ module HTML
 
       @attributes = attributes_to_instances attributes unless attributes.empty?
 
-      @content = block.call if !block.nil?
+      @content = block.call unless block.nil?
     end
 
     def to_s

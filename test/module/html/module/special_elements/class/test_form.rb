@@ -45,4 +45,22 @@ class TestForm < TestHelper
       end
     end
   end
+
+  def test_form_button
+    actual_value = HTML::SpecialElements::Form.new(@user, &:submit).to_s
+
+    expected_value = '<form action="#" method="post"><input type="submit" value="Save"></form>'
+
+    assert { actual_value == expected_value }
+  end
+
+  def test_form_button_with_custom_value
+    actual_value = HTML::SpecialElements::Form.new @user do |f|
+      f.submit "test"
+    end.to_s
+
+    expected_value = '<form action="#" method="post"><input type="submit" value="test"></form>'
+
+    assert { actual_value == expected_value }
+  end
 end

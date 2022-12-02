@@ -12,7 +12,7 @@ module HTML
 
         @content = ""
 
-        block.call(self) if !block.nil?
+        block&.call self
       end
 
       def to_s
@@ -20,49 +20,56 @@ module HTML
       end
 
       def field(type, **options)
-        tag = field_tag options[:as]
-        options.delete :as
+        label = (::HTML::Element.new("label", for: type) { type.to_s.capitalize }).to_s
 
-        @content += field_as tag, type, options
+        tag = input_tag options[:as]
+        options.delete :as
+        input = input_as tag, type, options
+
+        @content += label + input
       end
 
       alias input field
 
+      def submit(value = "Save")
+        @content += ::HTML::Element.new("input", type: "submit", value: value).to_s
+      end
+
       private
 
-      def field_tag(field_as)
-        field_as_and_tags = {
+      def input_tag(as)
+        as_and_tags = {
           text: "textarea"
         }
 
-        field_as_and_tags.fetch field_as, "input"
+        as_and_tags.fetch as, "input"
       end
 
       # rubocop:disable Metrics/MethodLength
-      def field_as(as_tag, field_type, field_options)
-        if as_tag == "input"
-          # will use if field type not string/input type not text
-          field_types_and_input_types = {
+      def input_as(tag, input_type, input_options)
+        if tag == "input"
+          # will use if input type is not text
+          input_types = {
             # example:
             # age: :number
           }
 
-          field_options[:type] = field_types_and_input_types.fetch field_type, "text"
+          input_options[:type] = input_types.fetch input_type, "text"
         end
 
-        field_options[:name] = field_type
+        input_options[:name] = input_type
 
-        if as_tag == "textarea"
-          block_value = @user.public_send field_type
+        if tag == "textarea"
+          block_value = @user.public_send input_type
 
-          field_options[:cols] = 20
-          field_options[:rows] = 40
+          input_options[:cols] = 20
+          input_options[:rows] = 40
 
-          (::HTML::Element.new(as_tag, **field_options) { block_value }).to_s
+          (::HTML::Element.new(tag, **input_options) { block_value }).to_s
         else
-          field_options[:value] = @user.public_send field_type
+          input_options[:value] = @user.public_send input_type
 
-          ::HTML::Element.new(as_tag, **field_options).to_s
+          ::HTML::Element.new(tag, **input_options).to_s
         end
       end
     end

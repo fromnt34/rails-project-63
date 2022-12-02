@@ -2,12 +2,12 @@
 
 module HTML
   class Element
-    def initialize(tag, **attributes)
+    def initialize(tag, **attributes, &block)
       @tag = Tag.new tag
 
       @attributes = attributes_to_instances attributes unless attributes.empty?
 
-      @content = yield if block_given?
+      @content = block.call if !block.nil?
     end
 
     def to_s

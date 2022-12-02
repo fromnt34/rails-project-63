@@ -3,7 +3,7 @@
 module HTML
   module SpecialElements
     class Form
-      def initialize(user, **attributes)
+      def initialize(user, **attributes, &block)
         @user = user
 
         @attributes = attributes
@@ -12,15 +12,11 @@ module HTML
 
         @content = ""
 
-        yield(self) if block_given?
+        block.call(self) if !block.nil?
       end
 
       def to_s
-        if @content.nil?
-          (::HTML::Element.new "form", **@attributes).to_s
-        else
-          (::HTML::Element.new("form", **@attributes) { @content }).to_s
-        end
+        (::HTML::Element.new("form", **@attributes) { @content }).to_s
       end
 
       def field(type, **options)

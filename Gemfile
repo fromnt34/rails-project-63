@@ -12,5 +12,5 @@ end
 
 group :test do
   gem "minitest", "~> 5.0"
-  gem "power_assert"
+  gem "minitest-power_assert"
 end

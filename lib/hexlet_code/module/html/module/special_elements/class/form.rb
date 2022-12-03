@@ -62,8 +62,8 @@ module HTML
         if tag == "textarea"
           block_value = @user.public_send input_type
 
-          input_options[:cols] = 20
-          input_options[:rows] = 40
+          input_options[:cols] ||= 20
+          input_options[:rows] ||= 40
 
           (::HTML::Element.new(tag, **input_options) { block_value }).to_s
         else

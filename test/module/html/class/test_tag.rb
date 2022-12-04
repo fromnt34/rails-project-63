@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class TestHTMLTag < Minitest::Test
   def test_class?
@@ -8,10 +8,10 @@ class TestHTMLTag < Minitest::Test
   end
 
   def test_to_s
-    assert { HTML::Tag.new("img").to_s == "<img>" }
+    assert { HTML::Tag.new('img').to_s == '<img>' }
   end
 
   def test_close_tag_to_s
-    assert { HTML::Tag.new("div").to_s == "<div></div>" }
+    assert { HTML::Tag.new('div').to_s == '<div></div>' }
   end
 end

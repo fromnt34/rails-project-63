@@ -7,20 +7,20 @@ module HTML
         @user = user
 
         @attributes = attributes
-        @attributes[:action] ||= "#"
-        @attributes[:method] = "post"
+        @attributes[:action] ||= '#'
+        @attributes[:method] = 'post'
 
-        @content = ""
+        @content = ''
 
         block&.call self
       end
 
       def to_s
-        (::HTML::Element.new("form", **@attributes) { @content }).to_s
+        (::HTML::Element.new('form', **@attributes) { @content }).to_s
       end
 
       def field(type, **options)
-        label = (::HTML::Element.new("label", for: type) { type.to_s.capitalize }).to_s
+        label = (::HTML::Element.new('label', for: type) { type.to_s.capitalize }).to_s
 
         tag = input_tag options[:as]
         options.delete :as
@@ -31,35 +31,34 @@ module HTML
 
       alias input field
 
-      def submit(value = "Save")
-        @content += ::HTML::Element.new("input", type: "submit", value: value).to_s
+      def submit(value = 'Save')
+        @content += ::HTML::Element.new('input', type: 'submit', value:).to_s
       end
 
       private
 
       def input_tag(as)
         as_and_tags = {
-          text: "textarea"
+          text: 'textarea'
         }
 
-        as_and_tags.fetch as, "input"
+        as_and_tags.fetch as, 'input'
       end
 
-      # rubocop:disable Metrics/MethodLength
       def input_as(tag, input_type, input_options)
-        if tag == "input"
+        if tag == 'input'
           # will use if input type is not text
           input_types = {
             # example:
             # age: :number
           }
 
-          input_options[:type] = input_types.fetch input_type, "text"
+          input_options[:type] = input_types.fetch input_type, 'text'
         end
 
         input_options[:name] = input_type
 
-        if tag == "textarea"
+        if tag == 'textarea'
           block_value = @user.public_send input_type
 
           input_options[:cols] ||= 20

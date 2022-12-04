@@ -32,7 +32,7 @@ module HTML
     end
 
     def attributes_to_html(attributes)
-      attributes.map(&:to_s).join " "
+      attributes.map(&:to_s).join ' '
     end
   end
 end

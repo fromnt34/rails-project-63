@@ -5,8 +5,8 @@ module HTML
     attr_accessor :attributes
 
     # rubocop:disable Style/ClassVars
-    @@template = "<%<tag>s%<attributes>s>"
-    @@close_tag_template = "</%s>"
+    @@template = '<%<tag>s%<attributes>s>'
+    @@close_tag_template = '</%s>'
 
     @@close_tags = %i[label div form textarea]
     # rubocop:enable Style/ClassVars
@@ -36,7 +36,7 @@ module HTML
     private
 
     def build_attributes(attributes)
-      attributes.nil? ? "" : " #{attributes}"
+      attributes.nil? ? '' : " #{attributes}"
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "class/form"
+require_relative 'class/form'
 
 module HTML
   module SpecialElements

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class TestHTMLAttribute < Minitest::Test
   def test_class?
@@ -8,6 +8,6 @@ class TestHTMLAttribute < Minitest::Test
   end
 
   def test_to_s
-    assert { HTML::Attribute.new("class", "test-class").to_s == 'class="test-class"' }
+    assert { HTML::Attribute.new('class', 'test-class').to_s == 'class="test-class"' }
   end
 end

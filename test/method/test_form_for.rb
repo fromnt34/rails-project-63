@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class TestFormFor < TestHelper
   def test_method?
@@ -15,27 +15,27 @@ class TestFormFor < TestHelper
   end
 
   def test_form_with_custom_action
-    actual_value = HexletCode.form_for @user, action: "/test"
+    actual_value = HexletCode.form_for @user, action: '/test'
     expected_value = '<form action="/test" method="post"></form>'
 
     assert { actual_value == expected_value }
   end
 
   def setup
-    @user = User.new name: "Jarad", job: "Grade A", gender: "m"
+    @user = User.new name: 'Jarad', job: 'Grade A', gender: 'm'
   end
 
   def test_form_inputs
     actual_value = HexletCode.form_for @user do |f|
-      f.input :name, class: "test-class", id: "test-id"
-      f.input :job, id: "test-id"
+      f.input :name, class: 'test-class', id: 'test-id'
+      f.input :job, id: 'test-id'
       f.input :job, as: :text
     end
 
-    expected_value = load_fixture("method/test_form_for/form_inputs.html")
+    expected_value = load_fixture('method/test_form_for/form_inputs.html')
 
     # TODO: make possible to test with formated html
-    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
+    assert { actual_value.gsub(/\s+/, '') == expected_value.gsub(/\s+/, '') }
   end
 
   def test_form_input_error_on_undefined_method_in_user
@@ -49,18 +49,18 @@ class TestFormFor < TestHelper
   def test_form_button
     actual_value = HTML::SpecialElements::Form.new(@user, &:submit).to_s
 
-    expected_value = load_fixture("method/test_form_for/form_button.html")
+    expected_value = load_fixture('method/test_form_for/form_button.html')
 
-    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
+    assert { actual_value.gsub(/\s+/, '') == expected_value.gsub(/\s+/, '') }
   end
 
   def test_form_button_with_custom_value
     actual_value = HTML::SpecialElements::Form.new @user do |f|
-      f.submit "test"
+      f.submit 'test'
     end.to_s
 
-    expected_value = load_fixture("method/test_form_for/form_button_with_custom_value.html")
+    expected_value = load_fixture('method/test_form_for/form_button_with_custom_value.html')
 
-    assert { actual_value.gsub(/\s+/, "") == expected_value.gsub(/\s+/, "") }
+    assert { actual_value.gsub(/\s+/, '') == expected_value.gsub(/\s+/, '') }
   end
 end

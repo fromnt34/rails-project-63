@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'hexlet_code/version'
-require_relative 'hexlet_code/module/html/html'
-
 module HexletCode
-  class Tag
-    def self.build(tag, **attributes, &)
-      HTML::Element.new(tag, **attributes, &).to_s
-    end
-  end
+  autoload :VERSION, 'hexlet_code/version'
+  autoload :Html, 'hexlet_code/html'
 
   def self.form_for(user, **attributes, &)
-    HTML::SpecialElements::Form.new(user, **attributes, &).to_s
+    Html::SpecialElements::Form.new(user, **attributes, &).to_s
   end
 end

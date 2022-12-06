@@ -8,7 +8,7 @@ module HexletCode
       TEMPLATE = '<%<tag>s%<attributes>s>'
       CLOSE_TAG_TEMPLATE = '</%s>'
 
-      CLOSE_TAGS = %i[label div form textarea].freeze
+      SINGLE_TAGS = %i[input].freeze
 
       def initialize(name)
         @name = name
@@ -25,10 +25,10 @@ module HexletCode
       def to_s
         intermediate_build = format TEMPLATE, { tag: @name, attributes: build_attributes(@attributes) }
 
-        if CLOSE_TAGS.include? @name.to_sym
-          intermediate_build + format(CLOSE_TAG_TEMPLATE, @name)
-        else
+        if SINGLE_TAGS.include? @name.to_sym
           intermediate_build
+        else
+          intermediate_build + format(CLOSE_TAG_TEMPLATE, @name)
         end
       end
 

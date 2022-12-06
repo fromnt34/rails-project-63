@@ -3,9 +3,7 @@
 module HexletCode
   module Html
     class Attribute
-      # rubocop:disable Style/ClassVars
-      @@template = '%s="%s"'
-      # rubocop:enable Style/ClassVars
+      TEMPLATE = '%s="%s"'
 
       def initialize(name, value)
         @name = name
@@ -13,7 +11,7 @@ module HexletCode
       end
 
       def to_s
-        format @@template, @name, @value
+        format TEMPLATE, @name, @value
       end
     end
   end

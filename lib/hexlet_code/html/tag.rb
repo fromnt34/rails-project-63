@@ -5,30 +5,28 @@ module HexletCode
     class Tag
       attr_accessor :attributes
 
-      # rubocop:disable Style/ClassVars
-      @@template = '<%<tag>s%<attributes>s>'
-      @@close_tag_template = '</%s>'
+      TEMPLATE = '<%<tag>s%<attributes>s>'
+      CLOSE_TAG_TEMPLATE = '</%s>'
 
-      @@close_tags = %i[label div form textarea]
-      # rubocop:enable Style/ClassVars
+      CLOSE_TAGS = %i[label div form textarea].freeze
 
       def initialize(name)
         @name = name
       end
 
       def open_tag
-        format @@template, { tag: @name, attributes: build_attributes(@attributes) }
+        format TEMPLATE, { tag: @name, attributes: build_attributes(@attributes) }
       end
 
       def close_tag
-        format @@close_tag_template, @name
+        format CLOSE_TAG_TEMPLATE, @name
       end
 
       def to_s
-        intermediate_build = format @@template, { tag: @name, attributes: build_attributes(@attributes) }
+        intermediate_build = format TEMPLATE, { tag: @name, attributes: build_attributes(@attributes) }
 
-        if @@close_tags.include? @name.to_sym
-          intermediate_build + format(@@close_tag_template, @name)
+        if CLOSE_TAGS.include? @name.to_sym
+          intermediate_build + format(CLOSE_TAG_TEMPLATE, @name)
         else
           intermediate_build
         end

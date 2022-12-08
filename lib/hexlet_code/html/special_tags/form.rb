@@ -48,7 +48,7 @@ module HexletCode
 
             (Html::Tag.new('textarea', **input_options.except(:as)) { block_value }).to_s
           else # as == 'input'
-            input_options[:type] ||= input_options.fetch :type, 'text'
+            input_options[:type] ||= 'text'
             input_options[:value] = @object.public_send input_name
 
             Html::Tag.new('input', **input_options).to_s

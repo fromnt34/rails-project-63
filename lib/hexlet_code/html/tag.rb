@@ -5,26 +5,21 @@ module HexletCode
     class Tag
       SINGLE_TAGS = %w[input].freeze
 
-      def initialize(tag, **attributes, &block)
-        @tag_name = tag
-        html_attributes = attributes.empty? ? '' : " #{attributes_to_html attributes}"
-        @content = block.nil? ? '' : block.call
-        @tag = "<#{tag}#{html_attributes}>"
+      def self.generate(tag, **attributes, &block)
+        content = block.nil? ? '' : block.call
+        tag_html = "<#{tag}#{attributes_to_html attributes}>"
+
+        return tag_html if SINGLE_TAGS.include? tag
+
+        tag_html + "#{content}</#{tag}>"
       end
 
-      def to_s
-        if SINGLE_TAGS.include? @tag_name
-          @tag
-        else
-          @tag + "#{@content}</#{@tag_name}>"
-        end
-      end
+      def self.attributes_to_html(attributes)
+        return '' if attributes.empty?
 
-      private
-
-      def attributes_to_html(attributes)
-        attributes.map { |name, value| "#{name}=\"#{value}\"" }
-                  .join ' '
+        html = attributes.map { |name, value| "#{name}=\"#{value}\"" }
+                         .join ' '
+        " #{html}"
       end
     end
   end

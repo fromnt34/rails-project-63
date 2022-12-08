@@ -17,14 +17,16 @@ module HexletCode
         end
 
         def to_s
-          (Html::Tag.new('form', **@attributes) { @content }).to_s
+          Html::Tag.generate('form', **@attributes) { @content }
         end
 
         def field(name, **options)
-          label = (Html::Tag.new('label', for: name) { name.to_s.capitalize }).to_s
+          label = Html::Tag.generate('label', for: name) { name.to_s.capitalize }
 
-          as = options.fetch(:as, 'input').to_s
-          input = input_as as, name, options
+          type = options.fetch(:as, 'input').capitalize
+          options = options.except(:as)
+          value = @object.public_send name
+          input = SpecialTags.const_get("FormInputs::#{type}").generate name, options, value
 
           @content += label + input
         end
@@ -32,27 +34,7 @@ module HexletCode
         alias input field
 
         def submit(value = 'Save')
-          @content += Html::Tag.new('input', type: 'submit', value:).to_s
-        end
-
-        private
-
-        def input_as(as, input_name, input_options)
-          input_options[:name] = input_name
-
-          if as == 'text'
-            block_value = @object.public_send input_name
-
-            input_options[:cols] ||= 20
-            input_options[:rows] ||= 40
-
-            (Html::Tag.new('textarea', **input_options.except(:as)) { block_value }).to_s
-          else # as == 'input'
-            input_options[:type] ||= 'text'
-            input_options[:value] = @object.public_send input_name
-
-            Html::Tag.new('input', **input_options).to_s
-          end
+          @content += Html::Tag.generate 'input', type: 'submit', value:
         end
       end
     end

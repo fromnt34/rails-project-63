@@ -5,6 +5,6 @@ module HexletCode
   autoload :Html, 'hexlet_code/html'
 
   def self.form_for(user, **attributes, &)
-    Html::SpecialElements::Form.new(user, **attributes, &).to_s
+    Html::SpecialTags::Form.new(user, **attributes, &).to_s
   end
 end

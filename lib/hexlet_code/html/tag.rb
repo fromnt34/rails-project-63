@@ -3,39 +3,28 @@
 module HexletCode
   module Html
     class Tag
-      attr_accessor :attributes
+      SINGLE_TAGS = %w[input].freeze
 
-      TEMPLATE = '<%<tag>s%<attributes>s>'
-      CLOSE_TAG_TEMPLATE = '</%s>'
-
-      SINGLE_TAGS = %i[input].freeze
-
-      def initialize(name)
-        @name = name
-      end
-
-      def open_tag
-        format TEMPLATE, { tag: @name, attributes: build_attributes(@attributes) }
-      end
-
-      def close_tag
-        format CLOSE_TAG_TEMPLATE, @name
+      def initialize(tag, **attributes, &block)
+        @tag_name = tag
+        html_attributes = attributes.empty? ? '' : " #{attributes_to_html attributes}"
+        @content = block.nil? ? '' : block.call
+        @tag = "<#{tag}#{html_attributes}>"
       end
 
       def to_s
-        intermediate_build = format TEMPLATE, { tag: @name, attributes: build_attributes(@attributes) }
-
-        if SINGLE_TAGS.include? @name.to_sym
-          intermediate_build
+        if SINGLE_TAGS.include? @tag_name
+          @tag
         else
-          intermediate_build + format(CLOSE_TAG_TEMPLATE, @name)
+          @tag + "#{@content}</#{@tag_name}>"
         end
       end
 
       private
 
-      def build_attributes(attributes)
-        attributes.nil? ? '' : " #{attributes}"
+      def attributes_to_html(attributes)
+        attributes.map { |name, value| "#{name}=\"#{value}\"" }
+                  .join ' '
       end
     end
   end

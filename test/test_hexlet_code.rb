@@ -3,6 +3,10 @@
 require 'test_helper'
 
 class TestHexletCode < TestHelper
+  def setup
+    @user = User.new name: 'Jarad', job: 'Grade A', gender: 'm'
+  end
+
   # TODO: make tests not by comparing strings
 
   def test_form
@@ -17,10 +21,6 @@ class TestHexletCode < TestHelper
     expected_value = '<form action="/test" method="test"></form>'
 
     assert { actual_value == expected_value }
-  end
-
-  def setup
-    @user = User.new name: 'Jarad', job: 'Grade A', gender: 'm'
   end
 
   def test_form_inputs
@@ -45,7 +45,6 @@ class TestHexletCode < TestHelper
 
   def test_form_button
     actual_value = HexletCode.form_for(@user, &:submit).to_s
-
     expected_value = load_fixture('form_button.html')
 
     assert { actual_value.gsub(/\s+/, '') == expected_value.gsub(/\s+/, '') }

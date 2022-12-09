@@ -5,8 +5,7 @@ module HexletCode
     module SpecialTags
       module FormInputs
         class Input
-          def self.generate(name, options, value)
-            options[:name] = name
+          def self.generate(options, value)
             options[:type] ||= 'text'
             options[:value] = value
 

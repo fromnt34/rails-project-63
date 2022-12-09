@@ -5,8 +5,7 @@ module HexletCode
     module SpecialTags
       module FormInputs
         class Text
-          def self.generate(name, options, value)
-            options[:name] = name
+          def self.generate(options, value)
             options[:cols] ||= 20
             options[:rows] ||= 40
 

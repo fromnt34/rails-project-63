@@ -9,7 +9,7 @@ module HexletCode
             options[:cols] ||= 20
             options[:rows] ||= 40
 
-            Html::Tag.generate('textarea', **options) { value }
+            Html::Tag.generate(:textarea, **options) { value }
           end
         end
       end

@@ -9,7 +9,7 @@ module HexletCode
             options[:type] ||= 'text'
             options[:value] = value
 
-            Html::Tag.generate 'input', **options
+            Html::Tag.generate :input, **options
           end
         end
       end

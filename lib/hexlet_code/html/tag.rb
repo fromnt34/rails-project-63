@@ -3,7 +3,7 @@
 module HexletCode
   module Html
     class Tag
-      SINGLE_TAGS = %w[input].freeze
+      SINGLE_TAGS = %i[input].freeze
 
       def self.generate(tag, **attributes, &block)
         content = block.nil? ? '' : block.call

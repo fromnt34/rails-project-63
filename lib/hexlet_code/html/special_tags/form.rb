@@ -13,11 +13,11 @@ module HexletCode
         end
 
         def to_s
-          Html::Tag.generate('form', **@attributes) { @content }
+          Html::Tag.generate(:form, **@attributes) { @content }
         end
 
         def field(name, **options)
-          label = Html::Tag.generate('label', for: name) { name.to_s.capitalize }
+          label = Html::Tag.generate(:label, for: name) { name.to_s.capitalize }
 
           type = options.fetch(:as, 'input').capitalize
           options[:name] = name
@@ -31,7 +31,7 @@ module HexletCode
         alias input field
 
         def submit(value = 'Save')
-          @content += Html::Tag.generate 'input', type: 'submit', value:
+          @content += Html::Tag.generate :input, type: :submit, value:
         end
 
         private

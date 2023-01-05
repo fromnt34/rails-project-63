@@ -44,7 +44,7 @@ class TestHexletCode < TestHelper
   end
 
   def test_form_button
-    actual_value = HexletCode.form_for(@user, &:submit).to_s
+    actual_value = HexletCode.form_for(@user, &:submit)
     expected_value = load_fixture('form_button.html')
 
     assert { actual_value.gsub(/\s+/, '') == expected_value.gsub(/\s+/, '') }
@@ -53,7 +53,7 @@ class TestHexletCode < TestHelper
   def test_form_button_with_custom_value
     actual_value = HexletCode.form_for @user do |f|
       f.submit 'test'
-    end.to_s
+    end
 
     expected_value = load_fixture('form_button_with_custom_value.html')
 

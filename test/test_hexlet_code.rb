@@ -17,7 +17,7 @@ class TestHexletCode < TestHelper
   end
 
   def test_form_with_custom_attributes
-    actual_value = HexletCode.form_for @user, action: '/test', method: 'test'
+    actual_value = HexletCode.form_for @user, url: '/test', method: 'test'
     expected_value = '<form action="/test" method="test"></form>'
 
     assert { actual_value == expected_value }

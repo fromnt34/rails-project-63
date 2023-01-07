@@ -2,7 +2,7 @@
 
 module HexletCode
   autoload :VERSION, 'hexlet_code/version'
-  autoload :View, 'helpers/view'
+  autoload :View, 'hexlet_code/view'
   autoload :Form, 'hexlet_code/form'
 
   def self.form_for(object, **attributes, &)

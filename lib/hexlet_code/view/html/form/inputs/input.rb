@@ -6,10 +6,10 @@ module HexletCode
       module Form
         module Inputs
           class Input
-            def self.generate(options)
-              options[:type] ||= 'text'
+            def self.generate(attrs)
+              attrs[:type] ||= 'text'
 
-              ::HexletCode::Form.render_object :input, **options
+              ::HexletCode::Form.render_object :input, **attrs
             end
           end
         end

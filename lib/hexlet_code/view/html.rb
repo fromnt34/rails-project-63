@@ -21,8 +21,7 @@ module HexletCode
           label = ::HexletCode::Form.render_object(:label, for: name) { name.to_s.capitalize }
 
           type = render_options.fetch(:as, 'input').capitalize
-          render_options = render_options.except :as
-          input = const_get("Form::Inputs::#{type}").generate(render_options)
+          input = const_get("Form::Inputs::#{type}").generate(render_options.except(:as))
 
           return render(label) + render(input)
         end

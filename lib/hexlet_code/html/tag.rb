@@ -8,7 +8,7 @@ module HexletCode
       def initialize(tag, **attrs, &body)
         @tag = tag
         @attrs = attrs
-        @body = body ? yield : []
+        @body = body ? yield : ''
       end
 
       def html

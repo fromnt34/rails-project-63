@@ -6,6 +6,6 @@ module HexletCode
   autoload :Form, 'hexlet_code/form'
 
   def self.form_for(object, **attributes, &)
-    Html.render Form.new(object, **attributes, &).render_object
+    Html.render Form.new(object, **attributes, &)
   end
 end

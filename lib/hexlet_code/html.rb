@@ -5,31 +5,23 @@ module HexletCode
     autoload :Form, 'hexlet_code/html/form'
     autoload :Tag, 'hexlet_code/html/tag'
 
-    # rubocop:disable Metrics/AbcSize
-    def self.render(object)
-      return object unless object.is_a? Hash
+    def self.render_input(input)
+      return Tag.new(:input, **input).html if input[:type] == :submit
 
-      tag = object[:tag]
-      attrs = object[:attrs]
+      name = input[:name]
+      label = Tag.new(:label, for: name) { name.capitalize }.html
 
-      if tag == :input && attrs[:type] != :submit
-        name = attrs[:name]
-        label = Tag.new(:label, for: name) { name.capitalize }.html
+      type = input.fetch(:as, 'input').capitalize
+      input = const_get("Form::Inputs::#{type}").generate(input.except(:as))
 
-        type = attrs.fetch(:as, 'input').capitalize
-        input = const_get("Form::Inputs::#{type}").generate(attrs.except(:as))
-
-        return label + input
-      end
-
-      body = build_body object[:body]
-
-      Tag.new(tag, **attrs) { body }.html
+      label + input
     end
-    # rubocop:enable Metrics/AbcSize
 
-    def self.build_body(body)
-      body.reduce('') { |acc, elem| acc + render(elem) }
+    def self.render(form)
+      inputs = form.inputs
+      rendered_inputs = inputs.map { |i| render_input i }
+
+      Tag.new(:form, **form.attrs) { rendered_inputs.join }.html
     end
   end
 end

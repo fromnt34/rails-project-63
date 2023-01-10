@@ -2,7 +2,7 @@
 
 module HexletCode
   class Form
-    attr_reader :render_object
+    attr_reader :attrs, :inputs
 
     DEFAULT_ATTRS = {
       action: '#',
@@ -13,35 +13,30 @@ module HexletCode
       attrs[:action] = attrs[:url] if attrs.key? :url
       attrs = attrs.except :url
 
-      @render_object = generate_render_object :form, **DEFAULT_ATTRS.merge(attrs)
-      @body = @render_object[:body]
+      @attrs = DEFAULT_ATTRS.merge attrs
+      @inputs = []
 
       @object = object
 
       yield(self) if block
     end
 
-    def input(name, **options)
-      @body.push generate_render_object(
-        :input,
+    def input(name, **attrs)
+      @inputs.push input_structure(
         name:,
         value: @object.public_send(name),
-        **options
+        **attrs
       )
     end
 
     def submit(value = 'Save')
-      @body.push generate_render_object(:input, type: :submit, value:)
+      @inputs.push input_structure(type: :submit, value:)
     end
 
     private
 
-    def generate_render_object(tag, **attrs, &body)
-      {
-        tag:,
-        attrs:,
-        body: body ? [body.call] : []
-      }
+    def input_structure(**attrs)
+      attrs
     end
   end
 end

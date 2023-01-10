@@ -1,42 +1,46 @@
 # frozen_string_literal: true
 
 module HexletCode
-  module Form
+  class Form
+    attr_reader :render_object
+
     DEFAULT_ATTRS = {
       action: '#',
       method: 'post'
     }.freeze
 
-    def self.generate(object, **attrs, &block)
-      attrs[:action] = attrs.delete :url if attrs.key? :url
+    def initialize(object, **attrs, &block)
+      attrs[:action] = attrs[:url] if attrs.key? :url
+      attrs = attrs.except :url
 
-      @form_render_object = render_object :form, **DEFAULT_ATTRS.merge(attrs)
-      @form_render_object_body = @form_render_object[:body]
+      @render_object = generate_render_object :form, **DEFAULT_ATTRS.merge(attrs)
+      @body = @render_object[:body]
 
       @object = object
 
       yield(self) if block
-
-      @form_render_object
     end
 
-    def self.input(name, **options)
-      options[:name] = name
-      options[:value] = @object.public_send name
-
-      @form_render_object_body.push render_object(:input, options)
+    def input(name, **options)
+      @body.push generate_render_object(
+        :input,
+        name:,
+        value: @object.public_send(name),
+        **options
+      )
     end
 
-    def self.submit(value = 'Save')
-      @form_render_object_body.push render_object(:input, type: :submit, value:)
+    def submit(value = 'Save')
+      @body.push generate_render_object(:input, type: :submit, value:)
     end
 
-    def self.render_object(tag, render_options = nil, **attrs, &body)
+    private
+
+    def generate_render_object(tag, **attrs, &body)
       {
         tag:,
         attrs:,
-        body: body ? [body.call] : [],
-        render_options:
+        body: body ? [body.call] : []
       }
     end
   end

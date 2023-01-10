@@ -2,10 +2,10 @@
 
 module HexletCode
   autoload :VERSION, 'hexlet_code/version'
-  autoload :View, 'hexlet_code/view'
+  autoload :Html, 'hexlet_code/html'
   autoload :Form, 'hexlet_code/form'
 
   def self.form_for(object, **attributes, &)
-    View::Html.render Form.generate(object, **attributes, &)
+    Html.render Form.new(object, **attributes, &).render_object
   end
 end
